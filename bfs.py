@@ -1,59 +1,26 @@
-def bfs(graph, init_vertex):
-    visited = []
-    queue = [init_vertex]
+def bfs(graph, source):
+
+    visited = [source]
+    queue = [source]
 
     while queue:
         vertex = queue.pop(0)
+        neighbors = graph[vertex]
 
-        if vertex not in visited:
-            visited.append(vertex)
-            neighbors = graph[vertex]
-
-            for neighbor in neighbors:
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                visited.append(neighbor)
                 queue.append(neighbor)
 
-    return visited    
-
-
-def bfs_shortest_path(graph, start, goal):
-    
-    visited = []
-    queue = [[start]]
-    
-    if start == goal:
-        return [start]
-
-    while queue:
-        path = queue.pop(0)
-        vertex = path[-1]
-
-        if vertex not in visited:
-            neighbors = graph[vertex]
-            
-            for neighbor in neighbors:
-                new_path = list(path)
-                new_path.append(neighbor)
-                queue.append(new_path)
-                
-                if neighbor == goal:
-                    return new_path
-                
-            visited.append(vertex)
-            
-    return "Path does not exist"
+    return visited
 
 graph = {
-    0: [1, 2],
-    1: [0, 2, 3, 4],
-    2: [0, 1],
-    3: [1, 5],
-    4: [1],
-    5: [3, 6, 7, 8],
-    6: [5],
-    7: [5, 8],
-    8: [5, 7, 9],
-    9: [8]
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
 }
 
-print(bfs(graph, 0))
-print(bfs_shortest_path(graph, 0, 7))
+print(bfs(graph, 'A'))
